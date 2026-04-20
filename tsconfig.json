@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "strict":               true,
+    "moduleResolution":     "bundler",
+    "target":               "ES2022",
+    "module":               "ES2022",
+    "verbatimModuleSyntax": true,
+    "skipLibCheck":         true,
+    "declaration":          true,
+    "declarationDir":       "./dist"
+  },
+  "include":  ["src/**/*"],
+  "exclude":  ["node_modules", "dist", "docs"]
+}

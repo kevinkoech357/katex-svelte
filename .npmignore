@@ -1,0 +1,23 @@
+# Ignore all source files and configuration
+src/
+.github/
+.vscode/
+.svelte-kit/
+
+# Config files
+svelte.config.js
+vite.config.ts
+tsconfig.json
+.prettierrc
+.gitignore
+.npmignore
+bun.lock
+
+# Tests
+src/test/
+*.test.ts
+
+# Documentation and temporary files
+test_output.txt
+renderer_test_fail*.txt
+edge_cases_fail.txt
