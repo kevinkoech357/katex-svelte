@@ -29,6 +29,13 @@
       errorMode: options.errorMode ?? 'text',
     })
   );
+
+  let labelId = $state('');
+  $effect(() => {
+    if (label && !labelId) {
+      labelId = `chem-block-label-${Math.random().toString(36).slice(2, 9)}`;
+    }
+  });
 </script>
 
 <div
@@ -36,6 +43,7 @@
   class:chem-block--error={!result.isValid}
   role="math"
   aria-label={formula}
+  aria-describedby={labelId}
 >
   <div class="chem-block__equation">
     <!-- eslint-disable-next-line svelte/no-at-html-tags -->
@@ -47,7 +55,7 @@
   </div>
 
   {#if label}
-    <p class="chem-block__label">{label}</p>
+    <p id={labelId} class="chem-block__label">{label}</p>
   {/if}
 </div>
 

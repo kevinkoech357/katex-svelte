@@ -31,6 +31,13 @@
       errorMode: options.errorMode ?? 'text',
     })
   );
+
+  let labelId = $state('');
+  $effect(() => {
+    if (label && !labelId) {
+      labelId = `latex-block-label-${Math.random().toString(36).slice(2, 9)}`;
+    }
+  });
 </script>
 
 <div
@@ -38,6 +45,7 @@
   class:latex-block--error={!result.isValid}
   role="math"
   aria-label={formula}
+  aria-describedby={labelId || undefined}
 >
   <div class="latex-block__inner">
     <!-- eslint-disable-next-line svelte/no-at-html-tags -->
@@ -49,7 +57,7 @@
   </div>
 
   {#if label}
-    <p class="latex-block__label">{label}</p>
+    <p id={labelId} class="latex-block__label">{label}</p>
   {/if}
 </div>
 

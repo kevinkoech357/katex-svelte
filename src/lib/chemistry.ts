@@ -140,7 +140,8 @@ export function buildReaction(
 ): string {
   const r = reactants.join(' + ');
   const p = products.join(' + ');
-  const a = above || below ? `->[${above ?? ''}][${below ?? ''}]` : arrow;
+  const hasCondition = above !== undefined || below !== undefined;
+  const a = hasCondition ? `${arrow}[${above ?? ''}][${below ?? ''}]` : arrow;
   return `${r} ${a} ${p}`;
 }
 
@@ -306,7 +307,10 @@ export function parseFormula(formula: string): Record<string, number> {
   const counts: Record<string, number> = {};
 
   // Remove any whitespace
-  const cleanFormula = formula.replace(/\s+/g, '');
+  let cleanFormula = formula.replace(/\s+/g, '');
+
+  // Strip state symbols (s), (l), (g), (aq) — these are not chemical groups
+  cleanFormula = cleanFormula.replace(/\((s|l|g|aq)\)/g, '');
 
   // 1. Extract coefficient (if any)
   const coeffMatch = cleanFormula.match(/^(\d+)/);

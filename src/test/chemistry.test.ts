@@ -38,6 +38,18 @@ describe('buildReaction', () => {
   it('handles single reactant and product', () => {
     expect(buildReaction(['CaCO3'], ['CaO', 'CO2'])).toBe('CaCO3 -> CaO + CO2');
   });
+
+  it('preserves arrow type when condition is provided', () => {
+    const r = buildReaction(['N2', '3H2'], ['2NH3'], '<=>', 'cat');
+    expect(r).toContain('<=>');
+    expect(r).toContain('[cat]');
+  });
+
+  it('does not add empty brackets when conditions are not provided', () => {
+    const r = buildReaction(['N2', 'H2'], ['NH3'], '<=>');
+    expect(r).not.toContain('[');
+    expect(r).not.toContain(']');
+  });
 });
 
 describe('searchFormulas', () => {
@@ -131,6 +143,19 @@ describe('parseFormula', () => {
   it('handles parentheses', () => {
     expect(parseFormula('Ca(OH)2')).toEqual({ Ca: 1, O: 2, H: 2 });
     expect(parseFormula('Mg(NO3)2')).toEqual({ Mg: 1, N: 2, O: 6 });
+  });
+
+  it('strips state symbols (s), (l), (g), (aq)', () => {
+    expect(parseFormula('NaCl(aq)')).toEqual({ Na: 1, Cl: 1 });
+    expect(parseFormula('H2O(l)')).toEqual({ H: 2, O: 1 });
+    expect(parseFormula('Fe(s)')).toEqual({ Fe: 1 });
+    expect(parseFormula('2H2(g)')).toEqual({ H: 4 });
+    expect(parseFormula('CaCO3(s)')).toEqual({ Ca: 1, C: 1, O: 3 });
+  });
+
+  it('preserves chemical group parentheses when state symbols are present', () => {
+    expect(parseFormula('Ca(OH)2(aq)')).toEqual({ Ca: 1, O: 2, H: 2 });
+    expect(parseFormula('Mg(NO3)2(aq)')).toEqual({ Mg: 1, N: 2, O: 6 });
   });
 });
 

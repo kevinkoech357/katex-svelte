@@ -275,7 +275,3 @@ function unescapeHtml(s: string): string {
     .replace(/&gt;/g, '>')
     .replace(/&quot;/g, '"');
 }
-
-function escapeRegex(s: string): string {
-  return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-}
